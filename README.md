@@ -1,75 +1,43 @@
-# React + TypeScript + Vite
+# Car Service Log
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small web app for keeping track of car maintenance: when a part was replaced or a job was done, and at what mileage. Built for car owners who want a simple personal service history.
+Data is stored locally in the browser.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Add a service record: date, mileage, part or job
+- Edit and delete existing records
+- Filter records by part (the filter options are built from existing records)
+- Records are sorted by date, newest first
+- Data persists between sessions via localStorage
+- Empty states for "no records yet" and "nothing found"
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- TypeScript
+- Vite
+- ESLint (typescript-eslint, react-hooks)
+- Plain CSS
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## What I practiced
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Derived data: the part list, active filter and visible records are computed during render instead of being stored in extra state
+- A custom generic hook, useLocalStorage<T>, with lazy initial state, a fallback to the initial value when stored data is corrupted
+- Lifting state up, and using key to reset the form when switching between add and edit mode
+- Immutable array updates with map, filter and spread
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Roadmap
 
-```
+- Cost and note fields in the form (already in the data type)
+- Tests with Vitest and React Testing Library
+- Supabase as a backend instead of localStorage
+- Authentication
+- Service reminders by mileage or date
