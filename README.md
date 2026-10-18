@@ -3,6 +3,8 @@
 A small web app for keeping track of car maintenance: when a part was replaced or a job was done, and at what mileage. Built for car owners who want a simple personal service history.
 Data is stored locally in the browser.
 
+Live demo: https://car-service-ivory.vercel.app/
+
 ## Features
 
 - Add a service record: date, mileage, part or job
