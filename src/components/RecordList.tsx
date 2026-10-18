@@ -4,11 +4,17 @@ type RecordListProps = {
   records: ServiceRecord[];
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  isFiltered: boolean;
 };
 
-export function RecordList({ records, onDelete, onEdit }: RecordListProps) {
+export function RecordList({
+  records,
+  onDelete,
+  onEdit,
+  isFiltered,
+}: RecordListProps) {
   if (records.length === 0) {
-    return <p>No records yet</p>;
+    return <p>{isFiltered ? "Nothing found" : "No records yet"}</p>;
   }
 
   const sorted = [...records].sort((a, b) => b.date.localeCompare(a.date));

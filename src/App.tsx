@@ -11,6 +11,12 @@ function App() {
   const [filter, setFilter] = useState("");
 
   const editingRecord = records.find((record) => record.id === editingId);
+  const parts = [...new Set(records.map((record) => record.part))];
+  const activeFilter = parts.includes(filter) ? filter : "";
+  const visibleRecords =
+    activeFilter === ""
+      ? records
+      : records.filter((record) => record.part === activeFilter);
 
   function handleAdd(record: ServiceRecord) {
     setRecords((prev) => [...prev, record]);
@@ -46,12 +52,18 @@ function App() {
         onCancel={handleCancel}
       />
 
-      <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+      <select value={activeFilter} onChange={(e) => setFilter(e.target.value)}>
         <option value="">All</option>
+        {parts.map((part) => (
+          <option key={part} value={part}>
+            {part}
+          </option>
+        ))}
       </select>
 
       <RecordList
-        records={records}
+        records={visibleRecords}
+        isFiltered={activeFilter !== ""}
         onDelete={handleDelete}
         onEdit={setEditingId}
       />
